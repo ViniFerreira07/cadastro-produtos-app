@@ -16,7 +16,12 @@ class Pedido extends Model
 
     public function produtos()
     {
-        return $this->belongsToMany(Produto::class)->withPivot('quantidade', 'preco');
+        return $this->belongsToMany(Produto::class)->withPivot('quantidade', 'valor_total');
+    }
+
+    public function clientes()
+    {
+        return $this->belongsTo(Cliente::class);
     }
 
     public function getTotalFormatadoAttribute()

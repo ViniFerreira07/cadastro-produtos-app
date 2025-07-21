@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('codigo')->unique();
             $table->decimal('desconto', 5, 2);
+            $table->dateTime('validade');
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }

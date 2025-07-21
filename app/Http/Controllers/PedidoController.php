@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
+use App\Models\Item;
 use App\Models\Pedido;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -12,7 +15,8 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        return view('pedido.index');
+        $pedidos = Pedido::paginate(5);
+        return view('pedido.index', compact('pedidos'));
     }
 
     /**
@@ -30,18 +34,32 @@ class PedidoController extends Controller
     {
         $validated = $request->validate([
             'cliente_id' => 'required|exists:clientes,id',
+            'produtos.*.id' => 'required|exists:produtos,id',
             'produtos.*.quantidade' => 'required|integer|min:1',
+            'produtos.*.preco' => 'required|numeric|min:0',
         ]);
 
         $pedido = new Pedido();
-        $pedido->quantidade = $validated['quantidade'];
-        $pedido->preco_unitario = $validated['preco_unitario'];
-        $pedido->valor_total = $validated['valor_total'];
+        $pedido->cliente_id = $validated['cliente_id'];
+        $pedido->valor_total = 0; // será somado abaixo
         $pedido->save();
 
+        $valorTotalGeral = 0;
+
         foreach ($validated['produtos'] as $produto) {
-            $pedido->produtos()->attach($produto['id'], ['quantidade' => $produto['quantidade']]);
+            $valorTotalProduto = $produto['preco'] * $produto['quantidade'];
+            $valorTotalGeral += $valorTotalProduto;
+
+            $pedido->produtos()->attach($produto['id'], [
+                'quantidade' => $produto['quantidade'],
+                'preco' => $produto['preco'],
+                'valor_total' => $valorTotalProduto
+            ]);
         }
+
+        // Atualiza o valor total do pedido
+        $pedido->valor_total = $valorTotalGeral;
+        $pedido->save();
 
         session()->flash('success', 'Pedido criado com sucesso!');
         return redirect()->route('pedido.index');
@@ -53,7 +71,9 @@ class PedidoController extends Controller
     public function show(string $id)
     {
         $pedido = Pedido::findOrFail($id);
-        return view('pedido.show', compact('pedido'));
+        $nome_cliente = Cliente::findOrFail($pedido->cliente_id)->nome;
+
+        return view('pedido.show', compact('pedido', 'nome_cliente'));
     }
 
     /**
@@ -97,5 +117,21 @@ class PedidoController extends Controller
 
         session()->flash('success', 'Pedido excluído com sucesso!');
         return redirect()->route('pedido.index');
+    }
+
+    public function atualizarPedido($id, $status)
+    {
+        $status = strtolower($status);
+        $statusPermitidos = ['pendente', 'verificando-pagamento', 'em-preparacao', 'em-curso', 'entregue', 'cancelado'];
+
+        if (!in_array($status, $statusPermitidos)) {
+            return response()->json(['erro' => 'Status inválido.'], 400);
+        }
+
+        $pedido = Pedido::findOrFail($id);
+        $pedido->status = $status;
+        $pedido->save();
+
+        return response()->json(['sucesso' => true, 'mensagem' => 'Status do pedido atualizado com sucesso!']);
     }
 }

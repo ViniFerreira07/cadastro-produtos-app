@@ -1,0 +1,147 @@
+body {
+    background-color: #15181e;    
+}
+
+.table {
+    text-wrap: nowrap;
+}
+
+h2 {
+ font-weight: 400;
+}
+
+main {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    width: 100vw;
+    min-height: 90vh;
+    height: fit-content;
+}
+
+.main-section {
+    background-color: #17181c;
+    color: #EEEEEE;
+    border: 2px solid #2f2f2f;
+    border-radius: 6px;
+    width: 80%;
+    min-height: 80%;
+    height: fit-content;
+    padding-bottom: 20px;
+}
+
+.btn:hover {
+    background-color: #2a2b3a;
+    color: white;
+}
+
+.btn-create, .btn-salvar {
+    background-color: #FFD369;
+    color: #646464;
+    font-weight: 400;
+}
+
+.btn-select {
+    background-color: #0b6520;
+    color: #393939;
+    font-weight: 400;
+}
+
+.form-control:focus {
+    background-color: #475169;
+}
+
+.form-control, .form-select, input {
+    background-color: #1b1f28;
+    color: #dedede;
+    width: 60%;
+    border: 1px solid #2f2f2f;
+}
+
+.form-control::placeholder,
+input::placeholder {
+    color: #dedede;
+    opacity: 1;
+}
+
+textarea::placeholder {
+    color: #dedede;
+    opacity: 1;
+}
+
+.form-select option:first-child {
+    color: #dedede;
+    opacity: 0.7;
+}
+
+.span-texto-criar {
+    color: #FFD369;
+}
+
+.form-check-input {
+    background-color: #dedede;
+}
+
+.form-check-input:checked {
+    background-color: #FFD369;
+}
+
+.section-total-carrinho {
+    background-color: #1b1f28;
+    border: 1px solid #414040;
+}
+
+.btn-frete {
+    background-color: #3659ac;
+    color: #dedede;
+}
+
+.btn-aplicar-cupom {
+    background-color: #369aac;
+    color: #dedede;
+}
+
+.btn-finalizar-compra {
+    color: #dedede;
+}
+
+.link-menu {
+    text-decoration: none;
+    color: #d8d8d8;
+}
+
+.link-menu:hover {
+    color: #636363;
+}
+
+.link-ativo {
+    color: #3461ca;
+}
+
+.link-ativo:hover {
+    color: #3461ca;
+}
+
+.section-cliente-dados {
+    background-color: #1b1f28;
+    height: auto;
+    border: 1px solid #394054;
+    border-radius: 5px;
+}
+
+.section-cliente-endereco {
+    background-color: #1b1f28;
+    height: auto;
+    border: 1px solid #394054;
+    border-radius: 5px;
+}
+
+.card {
+    background-color: #17181c;
+}
+
+.card-body {
+    background-color: #1b1f28;
+    border: 1px solid #394054;
+    color: #dedede;
+}

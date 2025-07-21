@@ -12,7 +12,7 @@ class EstoqueController extends Controller
      */
     public function index()
     {
-        $estoques = Estoque::all();
+        $estoques = Estoque::paginate(5);
         return view('estoque.index', compact('estoques'));
     }
 

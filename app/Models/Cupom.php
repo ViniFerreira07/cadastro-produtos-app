@@ -12,6 +12,10 @@ class Cupom extends Model
         'codigo',
         'desconto',
     ];
+    protected $casts = [
+        'validade' => 'datetime',
+        'ativo' => 'boolean',
+    ];
 
     public function getDescontoFormatadoAttribute()
     {

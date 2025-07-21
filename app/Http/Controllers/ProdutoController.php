@@ -13,7 +13,7 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::paginate(5);
         return view('produto.index', compact('produtos'));
     }
 
@@ -34,29 +34,38 @@ class ProdutoController extends Controller
             'nome' => 'required|string|max:255',
             'preco' => 'required|numeric|min:0',
             'descricao' => 'nullable|string',
-            'qtd_estoque' => 'nullable|integer|min:0',
         ]);
-
+        
         $produto = new Produto();
         $produto->nome = $validated['nome'];
         $produto->preco = $validated['preco'];
         $produto->descricao = $validated['descricao'] ?? '';
-        $produto->qtd_estoque = $validated['qtd_estoque'] ?? 0;
-        $produto->estoque()->associate($validated['estoque_id'] ?? null);
-
-        $this->updateOnEstoque($produto);
 
         $produto->save();
+
+        $this->createOnEstoque($request,$produto);
 
         session()->flash('success', 'Produto criado com sucesso!');
         return redirect()->route('produtos.index');
     }
 
-    public function updateOnEstoque(Produto $produto)
+    public function createOnEstoque(Request $request, Produto $produto)
     {
         $estoque = new Estoque();
         $estoque->nome_produto = $produto->nome;
-        $estoque->quantidade = $produto->qtd_estoque ?? 0;
+        $estoque->quantidade = $request->input('qtd_estoque', 0);
+        $estoque->produto()->associate($produto);
+
+        $estoque->save();
+    }
+
+    public function updateOnEstoque(Request $request, Produto $produto)
+    {
+        $estoque = Estoque::find($produto->id);
+        $estoque->nome_produto = $produto->nome;
+        $estoque->quantidade = $request->input('qtd_estoque', 0);
+        $estoque->produto()->associate($produto);
+
         $estoque->save();
     }
 
@@ -89,14 +98,14 @@ class ProdutoController extends Controller
             'nome' => 'required|string|max:255',
             'preco' => 'required|numeric|min:0',
             'descricao' => 'nullable|string',
-            'qtd_estoque' => 'nullable|integer|min:0',
         ]);
 
         $produto->nome = $validated['nome'];
         $produto->preco = $validated['preco'];
         $produto->descricao = $validated['descricao'] ?? '';
-        $produto->qtd_estoque = $validated['qtd_estoque'] ?? 0;
+
         $produto->save();
+        $this->updateOnEstoque($request,$produto);
 
         session()->flash('success', 'Produto atualizado com sucesso!');
         return redirect()->route('produtos.index');

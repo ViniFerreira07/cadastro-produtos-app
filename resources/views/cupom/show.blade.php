@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <a href="{{ route('cupom.index') }}" class="btn btn-secondary mt-3">Voltar</a>
-    <a href="{{ route('cupom.edit', $cupom->id) }}" class="btn btn-primary mt-3">Editar</a>
+    <a href="{{ route('cupons.index') }}" class="btn btn-secondary mt-3">Voltar</a>
+    <a href="{{ route('cupons.edit', $cupom->id) }}" class="btn btn-primary mt-3">Editar</a>
 </div>
 @endsection

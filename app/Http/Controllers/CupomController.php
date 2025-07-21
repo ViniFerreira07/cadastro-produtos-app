@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cupom;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CupomController extends Controller
@@ -12,7 +13,8 @@ class CupomController extends Controller
      */
     public function index()
     {
-        return view('cupom.index');
+        $cupons = Cupom::paginate(10);
+        return view('cupom.index', compact('cupons'));
     }
 
     /**
@@ -36,11 +38,15 @@ class CupomController extends Controller
         $cupom = new Cupom();
         $cupom->codigo = $validated['codigo'];
         $cupom->desconto = $validated['desconto'];
+        $cupom->validade = Carbon::createFromFormat('Y-m-d\TH:i', $request->input('validade'), 'America/Sao_Paulo')
+                                   ->setTimezone('UTC');
+        $cupom->ativo = $request->boolean('ativo');
         $cupom->save();
 
         session()->flash('success', 'Cupom criado com sucesso!');
-        return redirect()->route('cupom.index');
+        return redirect()->route('cupons.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -67,17 +73,14 @@ class CupomController extends Controller
     {
         $cupom = Cupom::findOrFail($id);
 
-        $validated = $request->validate([
-            'codigo' => 'required|unique:cupons,codigo,' . $cupom->id,
-            'desconto' => 'required|numeric|min:0|max:100',
-        ]);
-
-        $cupom->codigo = $validated['codigo'];
-        $cupom->desconto = $validated['desconto'];
+        $cupom->codigo = $request->input('codigo');
+        $cupom->desconto = $request->input('desconto');
+        $cupom->validade = $request->input('validade');
+        $cupom->ativo = $request->boolean('ativo');
         $cupom->save();
 
         session()->flash('success', 'Cupom atualizado com sucesso!');
-        return redirect()->route('cupom.index');
+        return redirect()->route('cupons.index');
     }
 
     /**
@@ -89,6 +92,6 @@ class CupomController extends Controller
         $cupom->delete();
 
         session()->flash('success', 'Cupom excluído com sucesso!');
-        return redirect()->route('cupom.index');
+        return redirect()->route('cupons.index');
     }
 }
