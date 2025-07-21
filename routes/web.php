@@ -37,5 +37,5 @@ Route::post('/cliente-cadastrado', [ClienteController::class, 'setClienteCadastr
 Route::middleware('api')
     ->prefix('api')
     ->group(function () {
-        Route::post('/atualizar-pedido/{id}/{status}', [PedidoController::class, 'atualizarPedido']);
+        Route::get('/atualizar-pedido/{id}/{status}', [PedidoController::class, 'atualizarPedido']);
     });

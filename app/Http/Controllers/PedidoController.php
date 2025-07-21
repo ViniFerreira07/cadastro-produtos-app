@@ -125,10 +125,19 @@ class PedidoController extends Controller
         $statusPermitidos = ['pendente', 'verificando-pagamento', 'em-preparacao', 'em-curso', 'entregue', 'cancelado'];
 
         if (!in_array($status, $statusPermitidos)) {
-            return response()->json(['erro' => 'Status inválido.'], 400);
+            return response()->json(['erro' => 'Status invalido. Os status válidos são: pendente, verificando-pagamento, em-preparacao, em-curso, entregue, cancelado'], 400);
         }
 
-        $pedido = Pedido::findOrFail($id);
+        $status = str_replace('-', ' ', $status);
+
+        $status = ucfirst($status);
+
+        $pedido = Pedido::find($id);
+
+        if (!$pedido) {
+            return response()->json(['erro' => 'ID do pedido nao encontrado.'], 400);
+        }
+
         $pedido->status = $status;
         $pedido->save();
 
