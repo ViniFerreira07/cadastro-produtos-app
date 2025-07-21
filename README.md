@@ -69,3 +69,38 @@ A aplicação expõe o seguinte endpoint para atualização externa do status do
 ```http
 POST /atualizar-pedido/{id}/{status}
 
+## ⚙️ Instalação e Execução do Projeto Laravel
+
+Siga os passos abaixo para clonar, instalar e rodar este projeto Laravel localmente:
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/ViniFerreira07/cadastro-produtos-app.git
+cd cadastro-produtos-app
+
+# 2. Instale as dependências PHP
+composer install
+
+# 3. (Opcional) Instale dependências JavaScript, se houver assets (Vite/Laravel Mix)
+npm install
+npm run dev
+
+# 4. Copie o arquivo de ambiente e gere a chave da aplicação
+cp .env.example .env
+php artisan key:generate
+
+# 5. Configure o banco de dados no arquivo .env com os dados do seu banco de dados
+# Exemplo:
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=cadastroapp
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# 6. Rode as migrações do banco de dados
+php artisan migrate
+
+# 7. Inicie o servidor local
+php artisan serve
+
