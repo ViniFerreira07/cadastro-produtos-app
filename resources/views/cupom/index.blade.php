@@ -59,7 +59,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5">Nenhum cupom encontrado.</td>
+                    <td colspan="6">Nenhum cupom encontrado.</td>
                 </tr>
             @endforelse
         </tbody>
