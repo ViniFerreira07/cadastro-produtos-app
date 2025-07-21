@@ -65,10 +65,14 @@ Ao finalizar um pedido, o sistema dispara automaticamente um e-mail de confirma�
 ## 📡 Webhook de Atualização de Pedido
 
 A aplicação expõe o seguinte endpoint para atualização externa do status do pedido:
+O "id" deve ser o id de um pedido e "status" deve ser um dos seguintes:
+'pendente', 'verificando-pagamento', 'em-preparacao', 'em-curso', 'entregue', 'cancelado'
 
 ### Atualizar status do pedido
 
-`POST /atualizar-pedido/{id}/{status}`
+`GET api/atualizar-pedido/{id}/{status}`
+
+Exemplo: `http://127.0.0.1:8000/api/atualizar-pedido/2/em-curso`
 
 ## ⚙️ Instalação e Execução do Projeto Laravel
 
