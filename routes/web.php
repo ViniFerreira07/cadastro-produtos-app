@@ -9,16 +9,14 @@ use App\Http\Controllers\VariacaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PedidoController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::resource('pedidos', PedidoController::class);
 Route::resource('produtos', ProdutoController::class);
 Route::resource('estoque', EstoqueController::class);
 Route::resource('cupons', CupomController::class);
 Route::resource('clientes', ClienteController::class);
 Route::resource('variacoes', VariacaoController::class);
+
+Route::get('/', [ClienteController::class, 'index'])->name('main');
 
 Route::post('/carrinho/adicionar/{produto}', [CarrinhoController::class, 'adicionar'])->name('carrinho.adicionar');
 Route::delete('/carrinho/remover/{produto}', [CarrinhoController::class, 'remover'])->name('carrinho.remover');
