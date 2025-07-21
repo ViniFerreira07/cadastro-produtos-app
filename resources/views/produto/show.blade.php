@@ -8,7 +8,7 @@
             <h5 class="card-title">{{ $produto->nome }}</h5>
             <p class="card-text"><strong>Descrição:</strong> {{ $produto->descricao }}</p>
             <p class="card-text"><strong>Preço:</strong> R$ {{ number_format($produto->preco, 2, ',', '.') }}</p>
-            <p class="card-text"><strong>Quantidade:</strong> {{ $produto->quantidade }}</p>
+            <p class="card-text"><strong>Quantidade:</strong> {{ App\Models\Estoque::where('produto_id', $produto->id)->first()->quantidade }}</p>
             <a href="{{ route('produtos.index') }}" class="btn btn-secondary">Voltar</a>
             <a href="{{ route('produtos.edit', $produto->id) }}" class="btn btn-salvar">Editar</a>
         </div>

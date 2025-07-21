@@ -20,6 +20,7 @@
                 <th>Desconto (%)</th>
                 <th>Validade</th>
                 <th>Status</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
